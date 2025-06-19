@@ -27,7 +27,7 @@ const HomePage = () => {
           <WatchCanvas
             enableControls={true}
             autoRotate={false}
-            cameraPosition={[0, 0, 6]}
+            cameraPosition={[0, 0, 4]}
             watchId="1"
             enableZoom={false}
           />
