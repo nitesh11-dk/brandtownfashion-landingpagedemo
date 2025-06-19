@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, Battery, Zap, Shield } from 'lucide-react';
 import WatchCanvas from '../components/WatchCanvas';
+import React from 'react';
 
-const HomePage = () => {
+const HomePage: React.FC = React.memo(() => {
   const features = [
     {
       icon: Battery,
@@ -84,6 +85,6 @@ const HomePage = () => {
       </section>
     </div>
   );
-};
+});
 
 export default HomePage;

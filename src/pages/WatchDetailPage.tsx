@@ -6,7 +6,7 @@ import LevelControls from '../components/LevelControls';
 import { watches } from '../data/watches';
 import { getWatchConfig, getDefaultConfig } from '../data/watchConfig';
 
-const WatchDetailPage = () => {
+const WatchDetailPage: React.FC = React.memo(() => {
   const { id } = useParams<{ id: string }>();
   const watch = watches.find(w => w.id === id);
   
@@ -190,6 +190,6 @@ const WatchDetailPage = () => {
       )}
     </div>
   );
-};
+});
 
 export default WatchDetailPage;

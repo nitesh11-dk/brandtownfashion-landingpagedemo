@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { Group } from 'three';
 import { Html } from '@react-three/drei';
 import { getWatchConfig, getDefaultConfig } from '../data/watchConfig';
+import { useLoader as useGlobalLoader } from '../context/LoaderContext';
 
 interface WatchModelProps {
   modelPath: string;
@@ -35,11 +36,12 @@ const ModelFallback = () => (
   </Html>
 );
 
-const WatchModel: React.FC<WatchModelProps> = ({ modelPath, watchId, dynamicConfig }) => {
+const WatchModel: React.FC<WatchModelProps> = React.memo(({ modelPath, watchId, dynamicConfig }) => {
   const groupRef = useRef<Group>(null);
   const [ModelComponent, setModelComponent] = useState<React.ComponentType<any> | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
+  const globalLoader = useGlobalLoader();
 
   // Custom drag state
   const dragState = useRef({ dragging: false, lastX: 0, lastY: 0 });
@@ -101,7 +103,7 @@ const WatchModel: React.FC<WatchModelProps> = ({ modelPath, watchId, dynamicConf
     const loadModel = async () => {
       setIsLoading(true);
       setHasError(false);
-      
+      globalLoader.increment();
       try {
         let modelModule;
         switch (watchId) {
@@ -127,18 +129,20 @@ const WatchModel: React.FC<WatchModelProps> = ({ modelPath, watchId, dynamicConf
             setModelComponent(null);
             setHasError(true);
             setIsLoading(false);
+            globalLoader.decrement();
             return;
         }
         setModelComponent(() => modelModule.Model);
         setIsLoading(false);
+        globalLoader.decrement();
       } catch (error) {
         console.error('Error loading 3D model:', error);
         setModelComponent(null);
         setHasError(true);
         setIsLoading(false);
+        globalLoader.decrement();
       }
     };
-
     loadModel();
   }, [watchId]);
 
@@ -168,6 +172,6 @@ const WatchModel: React.FC<WatchModelProps> = ({ modelPath, watchId, dynamicConf
       </group>
     </Suspense>
   );
-};
+});
 
 export default WatchModel;

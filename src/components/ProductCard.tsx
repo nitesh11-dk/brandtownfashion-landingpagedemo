@@ -7,7 +7,7 @@ interface ProductCardProps {
   watch: Watch;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ watch }) => {
+const ProductCard: React.FC<ProductCardProps> = React.memo(({ watch }) => {
   return (
     <div className="group bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden hover:bg-white/90 transition-all duration-300 hover:shadow-xl border border-white/20 shadow-lg">
       {/* Image/3D Preview */}
@@ -16,6 +16,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ watch }) => {
           src={watch.image}
           alt={watch.name}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
@@ -45,6 +46,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ watch }) => {
       </div>
     </div>
   );
-};
+});
 
 export default ProductCard;

@@ -1,7 +1,9 @@
 import ProductCard from '../components/ProductCard';
 import { watches } from '../data/watches';
+import React, { useMemo } from 'react';
 
-const ProductsPage = () => {
+const ProductsPage: React.FC = React.memo(() => {
+  const memoWatches = useMemo(() => watches, []);
   return (
     <div className="min-h-screen pt-20 bg-gradient-to-br from-gray-50 to-white">
       <div className="container mx-auto px-4 py-8">
@@ -18,13 +20,13 @@ const ProductsPage = () => {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {watches.map((watch) => (
+          {memoWatches.map((watch) => (
             <ProductCard key={watch.id} watch={watch} />
           ))}
         </div>
       </div>
     </div>
   );
-};
+});
 
 export default ProductsPage;
